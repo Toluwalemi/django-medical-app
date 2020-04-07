@@ -20,3 +20,30 @@ class Practitioner(models.Model):
 
     class Admin:
         pass
+
+
+class Illness(models.Model):
+    name = models.CharField(max_length=20)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "illnesses"
+
+    def __str__(self):
+        return self.name
+
+
+class MedicalInfo(models.Model):
+    name = models.CharField(max_length=256)
+    address = models.TextField(default='')
+    gender = models.CharField(max_length=10)
+    age = models.CharField(max_length=20)
+    occupation = models.CharField(max_length=20)
+    height = models.CharField(max_length=20)
+    weight = models.CharField(max_length=20)
+    blood_group = models.CharField(max_length=20)
+    illnesses = models.ManyToManyField(Illness)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
