@@ -21,7 +21,7 @@ admin.site.register(Practitioner, PractitionerAdmin)
 
 
 class MedicalInfoAdmin(admin.ModelAdmin):
-    list_display = ['name', 'gender', 'illness']
+    list_display = ['name', 'gender', 'age']
 
 
 admin.site.register(MedicalInfo, MedicalInfoAdmin)
