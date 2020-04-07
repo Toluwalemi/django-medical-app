@@ -1,0 +1,41 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}
+    <title> Signup</title>
+{% endblock %}
+
+{% block content %}
+    <div class="section" id="signup">
+        <div class="container">
+            <div class="section-title text-center">
+                <h3>Write for Crop2Cash</h3>
+                <p>Signup now.</p>
+                {% if error_message %}
+                    <p style="color: red">{{ error_message }}</p>
+                {% endif %}
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col col-md-5">
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input name="first_name" type="text" class="form-control" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <input name="last_name" type="text" class="form-control" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <input name="email" type="email" required class="form-control" placeholder="Email Address">
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" required class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-xl btn-block btn-primary">GET STARTED</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
