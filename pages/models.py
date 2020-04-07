@@ -47,3 +47,6 @@ class MedicalInfo(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
