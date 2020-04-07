@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from pages.models import Patient, Practitioner, MedicalInfo, Illness
 
-from pages.models import Patient, Practitioner
+
+# Register your models here.
 
 
 class PatientAdmin(admin.ModelAdmin):
@@ -17,3 +18,12 @@ class PractitionerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Practitioner, PractitionerAdmin)
+
+
+class MedicalInfoAdmin(admin.ModelAdmin):
+    list_display = ['name', 'gender', 'illness']
+
+
+admin.site.register(MedicalInfo, MedicalInfoAdmin)
+
+admin.site.register(Illness)
