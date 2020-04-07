@@ -35,16 +35,12 @@ class Illness(models.Model):
 
 
 class MedicalInfo(models.Model):
-    name = models.CharField(max_length=256)
-    address = models.TextField(default='')
+    summary = models.CharField(max_length=256)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    illnesses = models.ManyToManyField(Illness)
     gender = models.CharField(max_length=10)
     age = models.CharField(max_length=20)
-    occupation = models.CharField(max_length=20)
-    height = models.CharField(max_length=20)
-    weight = models.CharField(max_length=20)
     blood_group = models.CharField(max_length=20)
-    illnesses = models.ManyToManyField(Illness)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -52,4 +48,4 @@ class MedicalInfo(models.Model):
         verbose_name_plural = "Medical Information"
 
     def __str__(self):
-        return self.name
+        return self.summary
