@@ -1,0 +1,133 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>Filter Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'template.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Hi ()</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Signout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+
+    <h3>Filter Medical Records</h3>
+    <form method="GET" action=".">
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="summary_contains"
+                           placeholder="Summary contains..."/>
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="blood_type"
+                           placeholder="Exact Blood Type..."/>
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="exact_gender"
+                           placeholder="Exact Gender"/>
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2 col-lg-2">
+                <label for="viewCountMin">Minimum Age</label>
+                <input type="number" min=0 class="form-control" id="viewCountMin" placeholder="0" name="age_min">
+            </div>
+            <div class="form-group col-md-2 col-lg-2">
+                <label for="viewCountMax">Maximum Age</label>
+                <input type="number" min=0 class="form-control" id="viewCountMax" placeholder="100?"
+                       name="age_max">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="category">Illness</label>
+                <select id="category" class="form-control" name="illness">
+                    <option selected>Choose...</option>
+                    {% for ill in illnessess %}
+                        <option value="{{ ill }}">{{ ill }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <hr/>
+
+    <div class="row">
+        <ul>
+            {% for info in queryset %}
+                <li>
+                    {{ info.summary }}
+                    <span>Patient: {{ info.patient.name }}</span>
+                    <span>
+                {% for ill in info.illnesses.all %}
+                    {{ ill }}
+                {% endfor %}
+              </span>
+                    <span>Gender: {{ info.gender }}</span>
+                    <span>Age: {{ info.age }}</span>
+                    <span>Blood Group: {{ info.blood_group }}</span>
+                    <span>Creation Date: {{ journal.created }}</span>
+                </li>
+                <hr/>
+            {% endfor %}
+        </ul>
+    </div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

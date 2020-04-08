@@ -1,11 +1,13 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic import CreateView
 
 from pages.helpers import validate_email
-from pages.models import Patient
+from pages.models import Patient, MedicalInfo
 
 
 def show_signup(request):
@@ -59,6 +61,16 @@ def show_logout(request):
         return HttpResponseRedirect('/')
 
 
-@login_required(login_url='/accounts/login/')
-def show_medical_info(request):
-    return render(request, 'pages/medinfo.html')
+# @login_required(login_url='/accounts/login/')
+
+
+class PatientCreateView(CreateView):
+    model = MedicalInfo
+    template_name = 'pages/report.html'
+    fields = ['summary', 'illnesses', 'gender', 'age', 'blood_group']
+    # login_url = 'login'
+    context_object_name = 'creates'
+
+    def form_valid(self, form):
+        form.instance.patient = self.request.user
+        return super().form_valid(form)

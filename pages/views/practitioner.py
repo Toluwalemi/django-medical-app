@@ -1,11 +1,12 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from pages.helpers import validate_email
-from pages.models import Practitioner
+from pages.models import Practitioner, Illness, MedicalInfo
 
 
 def signup_page(request):
@@ -60,7 +61,46 @@ def logout_page(request):
         return HttpResponseRedirect('/')
 
 
-@login_required(login_url='pages/accounts/p/login/')
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
+
+def filter(request):
+    qs = MedicalInfo.objects.all()
+    illnesses = Illness.objects.all()
+    summary_contains_query = request.GET.get('summary_contains')
+    exact_blood_type = request.GET.get('blood_type')
+    exact_gender = request.GET.get('exact_gender')
+    age_min = request.GET.get('age_min')
+    age_max = request.GET.get('age_max')
+    illness = request.GET.get('illness')
+
+    if is_valid_queryparam(summary_contains_query):
+        qs = qs.filter(summary__icontains=summary_contains_query)
+
+    if is_valid_queryparam(age_min):
+        qs = qs.filter(age__gte=age_min)
+
+    if is_valid_queryparam(age_max):
+        qs = qs.filter(age__lt=age_max)
+
+    if is_valid_queryparam(exact_blood_type):
+        qs = qs.filter(blood_group=exact_blood_type)
+
+    if is_valid_queryparam(exact_gender):
+        qs = qs.filter(gender=exact_gender)
+
+    if is_valid_queryparam(illness) and illness != 'Choose...':
+        qs = qs.filter(illnesses__name=illness)
+
+    return qs
+
+
+# @login_required(login_url='pages/accounts/p/login/')
 def show_doc_info(request):
-    if request.method == 'GET':
-        return render(request, 'pages/doc.html')
+    qs = filter(request)
+    context = {
+        'queryset': qs,
+        'illnesses': Illness.objects.all()
+    }
+    return render(request, "pages/dashboard.html", context)
