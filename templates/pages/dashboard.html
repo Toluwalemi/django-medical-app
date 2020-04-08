@@ -8,7 +8,7 @@
     <title>Filter Form</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'template.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/dashboard.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
@@ -16,12 +16,14 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Hi ()</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Signout</a>
-            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Hi ()</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Signout</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
@@ -81,10 +83,10 @@
             </div>
 
             <div class="form-group col-md-4">
-                <label for="category">Illness</label>
-                <select id="category" class="form-control" name="illness">
+                <label for="illness">Illness</label>
+                <select id="illness" class="form-control" name="illness">
                     <option selected>Choose...</option>
-                    {% for ill in illnessess %}
+                    {% for ill in illnesses %}
                         <option value="{{ ill }}">{{ ill }}</option>
                     {% endfor %}
                 </select>
