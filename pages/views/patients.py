@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from pages.helpers import validate_email
 from pages.models import Patient, MedicalInfo, Illness
@@ -62,6 +62,7 @@ def show_logout(request):
 @login_required(login_url='/accounts/login/')
 def patient_create_view(request, illnesses=Illness.objects.all()):
     if request.method == 'GET':
+        # medo = MedicalInfo.objects.all()
         # patients = Patient.objects.filter(patient__id=request.user.id)
         # illnesses = Illness.objects.all()
         c = {
@@ -75,10 +76,11 @@ def patient_create_view(request, illnesses=Illness.objects.all()):
         age = request.POST.get('age')
         blood_group = request.POST.get('blood_group')
         illness = request.POST.get('illness')
-        # some_stuff = Illness(illnesses__name=illness)
+        create_illness = get_object_or_404(Illness, name=illness)
+        create_illness.save()
         report_info = MedicalInfo.objects.create(patient_id=request.user.id,
                                                  summary=summary, gender=gender, age=age,
                                                  blood_group=blood_group)
-        # report_info.save()
-        # report_info.illnesses.add(illness)
+        report_info.save()
+        report_info.illnesses.add(create_illness)
         return HttpResponseRedirect('/stat/')
