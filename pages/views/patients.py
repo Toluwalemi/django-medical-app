@@ -1,13 +1,11 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import CreateView
 
 from pages.helpers import validate_email
-from pages.models import Patient, MedicalInfo
+from pages.models import Patient, MedicalInfo, Illness
 
 
 def show_signup(request):
@@ -61,16 +59,26 @@ def show_logout(request):
         return HttpResponseRedirect('/')
 
 
-# @login_required(login_url='/accounts/login/')
-
-
-class PatientCreateView(CreateView):
-    model = MedicalInfo
-    template_name = 'pages/report.html'
-    fields = ['summary', 'illnesses', 'gender', 'age', 'blood_group']
-    login_url = 'login'
-    context_object_name = 'creates'
-
-    def form_valid(self, form):
-        form.instance.patient = self.request.user
-        return super().form_valid(form)
+@login_required(login_url='/accounts/login/')
+def patient_create_view(request, illnesses=Illness.objects.all()):
+    if request.method == 'GET':
+        # patients = Patient.objects.filter(patient__id=request.user.id)
+        # illnesses = Illness.objects.all()
+        c = {
+            # 'patients': patients,
+            'illnesses': illnesses
+        }
+        return render(request, 'pages/report.html', c)
+    elif request.method == "POST":
+        summary = request.POST.get('summary')
+        gender = request.POST.get('gender')
+        age = request.POST.get('age')
+        blood_group = request.POST.get('blood_group')
+        illness = request.POST.get('illness')
+        # some_stuff = Illness(illnesses__name=illness)
+        report_info = MedicalInfo.objects.create(patient_id=request.user.id,
+                                                 summary=summary, gender=gender, age=age,
+                                                 blood_group=blood_group)
+        # report_info.save()
+        # report_info.illnesses.add(illness)
+        return HttpResponseRedirect('/stat/')

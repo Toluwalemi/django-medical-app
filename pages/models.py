@@ -47,5 +47,8 @@ class MedicalInfo(models.Model):
     class Meta:
         verbose_name_plural = "Medical Information"
 
+    def get_illness(self):
+        return ",".join([str(p) for p in self.illnesses.all()])
+
     def __str__(self):
         return self.summary

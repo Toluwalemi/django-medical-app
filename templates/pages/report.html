@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Summary</label>
                         <div class="col-md-4">
-                            <input name="title" type="text" class="form-control input-md">
+                            <input name="summary" type="text" class="form-control input-md">
 
                         </div>
                     </div>
@@ -68,10 +68,10 @@
                     </div>
 
                     <div class="form-group col-md-4">
-                        <label for="category">Illness</label>
-                        <select id="category" class="form-control" name="illness">
+                        <label for="illness">Illness</label>
+                        <select id="illness" class="form-control" name="illness">
                             <option selected>Choose...</option>
-                            {% for ill in illnessess %}
+                            {% for ill in illnesses %}
                                 <option value="{{ ill }}">{{ ill }}</option>
                             {% endfor %}
                         </select>
