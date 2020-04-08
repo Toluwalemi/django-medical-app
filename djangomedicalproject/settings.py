@@ -29,7 +29,7 @@ DEBUG = True  # change to true when working locally
 if ENV_TYPE == "HEROKU":
     DEBUG = False
 
-ALLOWED_HOSTS = ['e4health-dev.herokuapp.com', '*']
+ALLOWED_HOSTS = ['e4health-dev.herokuapp.com', '*.e4health-dev.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
