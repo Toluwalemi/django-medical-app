@@ -60,22 +60,26 @@ def show_logout(request):
 
 
 @login_required(login_url='/accounts/login/')
-def patient_create_view(request, illnesses=Illness.objects.all()):
+def patient_create_view(request):
+    user = get_object_or_404(Patient, user=request.user.id)
+    illnesses = Illness.objects.all()
     if request.method == 'GET':
         c = {
-            'illnesses': illnesses
+            'user': user,
+            'illnesses': illnesses,
         }
         return render(request, 'pages/report.html', c)
+
     elif request.method == "POST":
         summary = request.POST.get('summary')
         gender = request.POST.get('gender')
         age = request.POST.get('age')
         blood_group = request.POST.get('blood_group')
         illness = request.POST.get('illness')
+        user = get_object_or_404(Patient, user=request.user.id)
         create_illness = get_object_or_404(Illness, name=illness)
         create_illness.save()
-        report_info = MedicalInfo.objects.create(patient_id=request.user.id,
-                                                 summary=summary, gender=gender, age=age,
+        report_info = MedicalInfo.objects.create(patient=user, summary=summary, gender=gender, age=age,
                                                  blood_group=blood_group)
         report_info.save()
         report_info.illnesses.add(create_illness)
