@@ -1,10 +1,11 @@
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from pages.helpers import validate_email
-from pages.models import Practitioner, Illness, MedicalInfo
+from pages.models import Practitioner, Illness, MedicalInfo, Patient
 
 
 def signup_page(request):
@@ -66,6 +67,7 @@ def is_valid_queryparam(param):
 def filter(request):
     qs = MedicalInfo.objects.all()
     illnesses = Illness.objects.all()
+    patients = Patient.objects.all()
     summary_contains_query = request.GET.get('summary_contains')
     exact_blood_type = request.GET.get('blood_type')
     exact_gender = request.GET.get('exact_gender')
@@ -94,11 +96,13 @@ def filter(request):
     return qs
 
 
-# @login_required(login_url='pages/accounts/p/login/')
+@login_required(login_url='/accounts/p/login/')
 def show_doc_info(request):
-    qs = filter(request)
-    context = {
-        'queryset': qs,
-        'illnesses': Illness.objects.all()
-    }
-    return render(request, "pages/dashboard.html", context)
+    if request.method == "GET":
+        qs = filter(request)
+        context = {
+            'queryset': qs,
+            'illnesses': Illness.objects.all(),
+            'patients': Patient.objects.all()
+        }
+        return render(request, "pages/dashboard.html", context)

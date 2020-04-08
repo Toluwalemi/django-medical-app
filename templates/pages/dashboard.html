@@ -18,10 +18,10 @@
         <ul class="navbar-nav mr-auto">
             {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Hi ()</a>
+                    <a class="nav-link" href="#">Hi, {{ user.first_name }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Signout</a>
+                    <a class="nav-link" href="{% url 'pages:practitioner_logout' %}">Signout</a>
                 </li>
             {% endif %}
         </ul>
@@ -112,10 +112,13 @@
         {% for info in queryset %}
             <tr>
                 <td>{{ info.summary }}</td>
-                <td>{{ info.patient.name }}</td>
+
+                <td>{{ info.patient.user.get_full_name }}</td>
+
                 {% for ill in info.illnesses.all %}
                     <td>{{ ill }}</td>
                 {% endfor %}
+
                 <td>{{ info.gender }}</td>
                 <td>{{ info.age }}</td>
                 <td>{{ info.blood_group }}</td>
