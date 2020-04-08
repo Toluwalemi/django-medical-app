@@ -62,11 +62,7 @@ def show_logout(request):
 @login_required(login_url='/accounts/login/')
 def patient_create_view(request, illnesses=Illness.objects.all()):
     if request.method == 'GET':
-        # medo = MedicalInfo.objects.all()
-        # patients = Patient.objects.filter(patient__id=request.user.id)
-        # illnesses = Illness.objects.all()
         c = {
-            # 'patients': patients,
             'illnesses': illnesses
         }
         return render(request, 'pages/report.html', c)
