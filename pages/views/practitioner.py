@@ -103,6 +103,5 @@ def show_doc_info(request):
         context = {
             'queryset': qs,
             'illnesses': Illness.objects.all(),
-            'patients': Patient.objects.all()
         }
         return render(request, "pages/dashboard.html", context)
