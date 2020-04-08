@@ -25,7 +25,6 @@ SECRET_KEY = 'z9xwq@2bdv!i^y^c@*(78%xkk@c!aw8!+wuo1934%&1hspqw_h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # change to true when working locally
-
 if ENV_TYPE == "HEROKU":
     DEBUG = False
 
@@ -59,8 +58,7 @@ ROOT_URLCONF = 'djangomedicalproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
