@@ -10,7 +10,7 @@ from pages.models import Practitioner, Illness, MedicalInfo
 def signup_page(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return HttpResponseRedirect('/doc/')
+            return HttpResponseRedirect('/dashboard/')
         return render(request, 'accounts/practitioner/signup.html')
     elif request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -30,7 +30,7 @@ def signup_page(request):
         practitioner.save()
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/doc/')
+            return HttpResponseRedirect('/dashboard/')
         else:
             """redirect to login"""
             return HttpResponseRedirect('/account/p/login/')
@@ -39,15 +39,15 @@ def signup_page(request):
 def login_page(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return HttpResponseRedirect('/doc/')
-        return render(request, 'accounts/patient/login.html', {})
+            return HttpResponseRedirect('/dashboard/')
+        return render(request, 'accounts/practitioner/login.html', {})
     elif request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/doc/')
+            return HttpResponseRedirect('/dashboard/')
         else:
             """return invalid login here"""
             return render(request, 'accounts/practitioner/login.html', {'error_message': 'Wrong username or password.'})

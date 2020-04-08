@@ -28,22 +28,27 @@
         </div>
         <div class="navbar-collapse collapse" id="bs-navbar">
             <ul class="nav navbar-nav">
-                {% if user.is_authenticated %}
+                {% block authenticate %}
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a class="page-scroll">Hi, {{ user.first_name }}</a>
+                        </li>
+
+                        <li>
+                            <a class="page-scroll" href="{% url 'pages:patient_logout' %}">Logout</a>
+                        </li>
+                    {% endif %}
+                {% endblock %}
+
+                {% if not user.is_authenticated %}
                     <li>
-                        <a class="page-scroll">Hi, {{ user.first_name }}</a>
+                        <a class="page-scroll" href="{% url 'pages:practitioner_login' %}">Practitioner Login</a>
                     </li>
 
                     <li>
-                        <a class="page-scroll" href="{% url 'pages:patient_logout' %}">Logout</a>
+                        <a class="page-scroll" href="{% url 'pages:patient_login' %}">Patient Login</a>
                     </li>
                 {% endif %}
-                <li>
-                    <a class="page-scroll" href="{% url 'pages:patient_login' %}">Practitioner Login</a>
-                </li>
-
-                <li>
-                    <a class="page-scroll" href="{% url 'pages:patient_login' %}">Patient Login</a>
-                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -58,6 +63,9 @@
 {% endblock %}
 
 {% block section %}
+{% endblock %}
+
+{% block login %}
 {% endblock %}
 
 <!--scripts loaded here -->

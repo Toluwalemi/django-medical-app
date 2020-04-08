@@ -1,34 +1,38 @@
 {% extends "accounts/base.html" %}
 
-{% block title %}
-    <title>MedInfo</title>
-    {%  endblock %}
-{% block content %}
-    <div class="section" id="signup">
-    <div class="container">
-        <div class="section-title text-center">
-            <h3>Write for Crop2Cash</h3>
-            <p>Log in now.</p>
-            {% if error_message %}
-            <p style="color: red">{{ error_message }}</p>
-            {% endif %}
-        </div>
-        <div class="row justify-content-md-center">
-            <div class="col col-md-5">
-                <form action="." method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <input name="username" type="email" required class="form-control" placeholder="Email Address">
-                    </div>
-                    <div class="form-group">
-                        <input name="password" type="password" required class="form-control" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-xl btn-block btn-primary">START WRITING</button>
-                    </div>
-                </form>
+{% block section %}
+    <section id="last">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="margin-top-0 wow fadeIn">Patient Login</h2>
+                    <hr class="primary">
+                    {% if error_message %}
+                        <p style="color: red">{{ error_message }}</p>
+                    {% endif %}
+                </div>
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <form class="contact-form row" action="." method="post">
+                        {% csrf_token %}
+                        <div class="col-md-4">
+                            <label></label>
+                            <input name="username" type="email" class="form-control" placeholder="Email Address">
+                        </div>
+                        <div class="col-md-4">
+                            <label></label>
+                            <input name="password" type="password" class="form-control" placeholder="Password">
+                        </div>
+
+                        <div class="col-md-4 col-md-offset-4">
+                            <label></label>
+                            <button type="submit" data-toggle="modal" data-target="#alertModal"
+                                    class="btn btn-primary btn-block btn-lg">Login <i
+                                    class="ion-android-arrow-forward"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 {% endblock %}
