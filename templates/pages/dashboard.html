@@ -94,27 +94,35 @@
     </form>
 
     <hr/>
-
-    <div class="row">
-        <ul>
-            {% for info in queryset %}
-                <li>
-                    {{ info.summary }}
-                    <span>Patient: {{ info.patient.name }}</span>
-                    <span>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Name</th>
+            <th>Illness</th>
+            <th>Gender</th>
+            <th>Blood Group</th>
+            <th>Age</th>
+            <th>Creation Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for info in queryset %}
+            <tr>
+                <td>{{ info.summary }}</td>
+                <td>{{ info.patient.name }}</td>
                 {% for ill in info.illnesses.all %}
-                    {{ ill }}
+                    <td>{{ ill }}</td>
                 {% endfor %}
-              </span>
-                    <span>Gender: {{ info.gender }}</span>
-                    <span>Age: {{ info.age }}</span>
-                    <span>Blood Group: {{ info.blood_group }}</span>
-                    <span>Creation Date: {{ journal.created }}</span>
-                </li>
-                <hr/>
-            {% endfor %}
-        </ul>
-    </div>
+                <td>{{ info.gender }}</td>
+                <td>{{ info.age }}</td>
+                <td>{{ info.blood_group }}</td>
+                <td>{{ info.created }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 </main>
 

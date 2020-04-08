@@ -1,0 +1,17 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block header %}
+    <header id="first">
+        <div class="header-content">
+            <div class="inner">
+                <h1 class="cursive">Welcome to MedInfo App</h1>
+                <h4>Kindly SignUp as a Patient or Medical Practitioner</h4>
+                <hr>
+                <a href="{% url 'pages:patient_signup' %}" class="btn btn-primary btn-xl">I'm a
+                    Patient</a> &nbsp; <a href="{% url 'pages:practitioner_signup' %}"
+                                          class="btn btn-primary btn-xl page-scroll">I'm a Practitioner</a>
+            </div>
+        </div>
+    </header>
+{% endblock %}

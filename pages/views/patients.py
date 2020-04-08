@@ -13,7 +13,7 @@ from pages.models import Patient, MedicalInfo
 def show_signup(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return HttpResponseRedirect('/info/')
+            return HttpResponseRedirect('/report/')
         return render(request, 'accounts/patient/signup.html')
     elif request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -32,7 +32,7 @@ def show_signup(request):
         patient.save()
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/info/')
+            return HttpResponseRedirect('/report/')
         else:
             """redirect to login"""
             return HttpResponseRedirect('/account/login/')
@@ -41,7 +41,7 @@ def show_signup(request):
 def show_login(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return HttpResponseRedirect('/info/')
+            return HttpResponseRedirect('/report/')
         return render(request, 'accounts/patient/login.html', {})
     elif request.method == 'POST':
         username = request.POST.get('username')
@@ -49,7 +49,7 @@ def show_login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/info/')
+            return HttpResponseRedirect('/report/')
         else:
             """return invalid login here"""
             return render(request, 'accounts/patient/login.html', {'error_message': 'Wrong username or password.'})
@@ -68,7 +68,7 @@ class PatientCreateView(CreateView):
     model = MedicalInfo
     template_name = 'pages/report.html'
     fields = ['summary', 'illnesses', 'gender', 'age', 'blood_group']
-    # login_url = 'login'
+    login_url = 'login'
     context_object_name = 'creates'
 
     def form_valid(self, form):

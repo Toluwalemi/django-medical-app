@@ -1,55 +1,70 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block title %}
-    {% endblock %}
-    <meta property="og:title" content="Crop2Cash Blog: Creator"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image" content="/static/green/images/c2c-logo.png"/>
-
-    <link href="https://fonts.googleapis.com/css?family=Product+Sans:300,400,700" rel="stylesheet">
-
-
-    {#    <link rel="stylesheet" href="/static/green/css/global/bootstrap.min.css">#}
-    {##}
-    {#    <link rel='shortcut icon' type='image/x-icon' href="/static/green/images/crop2cash_favicon.ico">#}
-    {##}
-    {#    <link rel="stylesheet" href="/static/green/css/global/plugins/icon-font.css">#}
-    {##}
-    {#    <link rel="stylesheet" href="/static/green/css/style.css">#}
-
+    <title>MedInfo App</title>
+    <meta name="description"
+          content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Codeply">
+    <link rel="stylesheet" href="{% static "pages/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "pages/css/animate.min.css" %}">
+    <link rel="stylesheet" href="{% static "pages/css/ionicons.min.css" %}">
+    <link rel="stylesheet" href="{% static "pages/css/styles.css" %}">
 </head>
-<body data-spy="scroll" data-target="#site-nav" data-offset="80" data-scroll-animation="true">
-<header id="home" data-parallax="scroll" data-speed="0.5" data-image-src="/static/green/images/c2c-logo.png">
+<body>
+<nav id="topNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="{% url 'pages:home_page' %}"><i
+                    class="ion-ios-analytics-outline"></i> MedInfo App</a>
+        </div>
+        <div class="navbar-collapse collapse" id="bs-navbar">
+            <ul class="nav navbar-nav">
+                {% if user.is_authenticated %}
+                    <li>
+                        <a class="page-scroll">Hi, {{ user.first_name }}</a>
+                    </li>
 
-    {#    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-transparent">#}
-    {#        <div class="container">#}
-    {#            <a class="navbar-brand" href="{% url "blog:blog_home" %}">#}
-    {#                <h3 class="gradient-mask">Crop2Cash Blog</h3>#}
-    {#            </a>#}
-    {#            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site-nav"#}
-    {#                    aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">#}
-    {#                <span class="navbar-toggler-icon"></span>#}
-    {#            </button>#}
-    {#            <div class="collapse navbar-collapse" id="site-nav">#}
-    {#                <ul class="navbar-nav text-sm-left ml-auto">#}
-    {#                    {% if user.is_authenticated %}#}
-    {#                        <li class="nav-item">#}
-    {#                            <a class="nav-link" href="{% url "pages:creator_logout" %}">Log Out</a>#}
-    {#                        </li>#}
-    {#                    {% endif %}#}
-    {#                </ul>#}
-    {#            </div>#}
-    {#        </div>#}
+                    <li>
+                        <a class="page-scroll" href="{% url 'pages:patient_logout' %}">Logout</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a class="page-scroll" href="{% url 'pages:patient_login' %}">Practitioner Login</a>
+                </li>
 
-    {#    </nav>#}
-
-</header>
-{% block content %}
+                <li>
+                    <a class="page-scroll" href="{% url 'pages:patient_login' %}">Patient Login</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="page-scroll" data-toggle="modal"
+                       href="">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block header %}
 {% endblock %}
 
+{% block section %}
+{% endblock %}
+
+<!--scripts loaded here -->
+<script src="{% static 'pages/js/jquery.min.js' %}"></script>
+<script src="{% static 'pages/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'pages/js/jquery.easing.min.js' %}"></script>
+<script src="{% static 'pages/js/wow.js' %}"></script>
+<script src="{% static 'pages/js/scripts.js' %}"></script>
 </body>
 </html>
