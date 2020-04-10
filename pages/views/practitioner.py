@@ -1,9 +1,10 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from pages.decorators import group_required
 from pages.helpers import validate_email
 from pages.models import Practitioner, Illness, MedicalInfo, Patient
 
@@ -29,6 +30,8 @@ def signup_page(request):
         user.save()
         practitioner = Practitioner(user=user)
         practitioner.save()
+        group = Group.objects.get(name='Practitioners')
+        user.groups.add(group)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect('/dashboard/')
@@ -97,6 +100,7 @@ def filter(request):
 
 
 @login_required(login_url='/accounts/p/login/')
+@group_required('Practitioners')
 def show_doc_info(request):
     if request.method == "GET":
         qs = filter(request)

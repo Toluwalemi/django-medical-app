@@ -1,9 +1,10 @@
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
+from pages.decorators import group_required
 from pages.helpers import validate_email
 from pages.models import Patient, MedicalInfo, Illness
 
@@ -28,6 +29,8 @@ def show_signup(request):
         user.save()
         patient = Patient(user=user)
         patient.save()
+        group = Group.objects.get(name='Patients')
+        user.groups.add(group)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect('/report/')
@@ -60,6 +63,8 @@ def show_logout(request):
 
 
 @login_required(login_url='/accounts/login/')
+@group_required('Patients')
+# @permission_required(['pages.can_illness', 'pages.can_illness'], raise_exception=True)
 def patient_create_view(request):
     user = get_object_or_404(Patient, user=request.user.id)
     illnesses = Illness.objects.all()
